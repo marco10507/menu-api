@@ -1,5 +1,7 @@
 package com.example.menuservice.entity;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,10 +9,15 @@ public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private Double price;
+    @NotNull
     private String currency;
+    @NotNull
     private String name;
+    @NotNull
     private String description;
+    @NotNull
     private String pictureLink;
 
     public MenuItem() {

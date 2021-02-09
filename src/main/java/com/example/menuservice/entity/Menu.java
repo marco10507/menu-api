@@ -1,14 +1,21 @@
 package com.example.menuservice.entity;
 
+
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@JsonFilter("menuFilter")
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String name;
+    @NotNull
     private String description;
 
     @OneToMany(mappedBy="menu")
