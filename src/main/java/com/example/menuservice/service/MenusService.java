@@ -10,11 +10,12 @@ import com.example.menuservice.repository.MenuSectionItemsRepository;
 import com.example.menuservice.repository.MenuSectionsRepository;
 import com.example.menuservice.repository.MenusRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Service
 public class MenusService {
     private final MenusRepository menusRepository;
     private final MenuSectionsRepository menuSectionsRepository;

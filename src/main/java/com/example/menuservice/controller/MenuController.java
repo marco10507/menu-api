@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +38,6 @@ public class MenuController {
 
     @PostMapping(path = "/menu")
     public ResponseEntity<Menu> postMenu(@RequestBody Menu menu) {
-        menu.setSections(new ArrayList<>());
-
         menu = menusService.createMenu(menu);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(menu);
@@ -48,8 +45,6 @@ public class MenuController {
 
     @PostMapping(path = "/menu/{menuId}/section")
     public ResponseEntity<MenuSection> postSection(@RequestBody MenuSection menuSection, @PathVariable Long menuId) {
-        menuSection.setItems(new ArrayList<>());
-
         menuSection = menusService.createSection(menuId, menuSection);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(menuSection);
