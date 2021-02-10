@@ -47,13 +47,15 @@ public class MenuController {
 
     @PostMapping(path = "/menu/{menuId}/section")
     public ResponseEntity<MenuSection> postSection(@RequestBody MenuSection menuSection, @PathVariable Long menuId) {
+        menuSection.setItems(new ArrayList<>());
+
         menuSection = menusService.createSection(menuId, menuSection);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(menuSection);
     }
 
     @PostMapping(path = "/menu/{menuId}/section/{sectionId}/item")
-    public ResponseEntity<MenuItem> postItem(@PathVariable Long sectionId, @PathVariable Long menuId, @RequestBody MenuItem menuItem){
+    public ResponseEntity<MenuItem> postItem(@PathVariable Long sectionId, @PathVariable Long menuId, @RequestBody MenuItem menuItem) {
         menuItem = menusService.createItem(menuId, sectionId, menuItem);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(menuItem);
