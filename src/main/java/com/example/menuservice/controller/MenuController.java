@@ -3,6 +3,7 @@ package com.example.menuservice.controller;
 import com.example.menuservice.entity.Menu;
 import com.example.menuservice.entity.MenuItem;
 import com.example.menuservice.entity.MenuSection;
+import com.example.menuservice.exception.ResourceNotFoundException;
 import com.example.menuservice.service.MenusService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class MenuController {
         Optional<Menu> menu = menusService.findById(id);
 
         if (menu.isEmpty()) {
-            throw new RuntimeException(String.format("Menu id %s does not exist.", id));
+            throw new ResourceNotFoundException(String.format("Menu id %s does not exist.", id));
         }
 
         return menu.get();

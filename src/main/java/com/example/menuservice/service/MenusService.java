@@ -4,6 +4,7 @@ import com.example.menuservice.entity.Menu;
 import com.example.menuservice.entity.MenuItem;
 import com.example.menuservice.entity.MenuSection;
 import com.example.menuservice.entity.MenuSectionItem;
+import com.example.menuservice.exception.ResourceNotFoundException;
 import com.example.menuservice.repository.MenuItemsRepository;
 import com.example.menuservice.repository.MenuSectionItemsRepository;
 import com.example.menuservice.repository.MenuSectionsRepository;
@@ -43,7 +44,7 @@ public class MenusService {
         Optional<Menu> menu = menusRepository.findById(menuId);
 
         if (menu.isEmpty()) {
-            throw new RuntimeException(String.format("Menu id %s does not exist.", menuId));
+            throw new ResourceNotFoundException(String.format("Menu id %s does not exist.", menuId));
         }
 
         menuSection.setMenu(menu.get());
@@ -59,7 +60,7 @@ public class MenusService {
         Optional<MenuSection> section = menuSectionsRepository.findByIdAndMenuId(sectionId, menuId);
 
         if (section.isEmpty()) {
-            throw new RuntimeException(String.format("Section with id %s and menu id %s does not exist.", sectionId, menuId));
+            throw new ResourceNotFoundException(String.format("Section with id %s and menu id %s does not exist.", sectionId, menuId));
         }
 
         MenuSectionItem menuSectionItem = new MenuSectionItem(section.get(), menuItem);
