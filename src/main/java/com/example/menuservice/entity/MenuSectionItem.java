@@ -1,5 +1,6 @@
 package com.example.menuservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ public class MenuSectionItem {
     private Long id;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonBackReference
     private MenuSection menuSection;
 
     @ManyToOne

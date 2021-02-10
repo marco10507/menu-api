@@ -8,10 +8,6 @@ import com.example.menuservice.repository.MenuItemsRepository;
 import com.example.menuservice.repository.MenuSectionItemsRepository;
 import com.example.menuservice.repository.MenuSectionsRepository;
 import com.example.menuservice.repository.MenusRepository;
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -31,46 +27,19 @@ public class MenusService {
         this.menuItemsRepository = menuItemsRepository;
     }
 
-    public MappingJacksonValue findAll() {
-        List<Menu> menus = menusRepository.findAll();
-
-        SimpleFilterProvider filters = new SimpleFilterProvider();
-        filters.setFailOnUnknownId(false);
-
-        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(menus);
-        mappingJacksonValue.setFilters(filters);
-
-        return mappingJacksonValue;
+    public List<Menu> findAll() {
+        return menusRepository.findAll();
     }
 
-    public MappingJacksonValue findById(Long id) {
-        Optional<Menu> menu = menusRepository.findById(id);
-
-        if (menu.isEmpty()) {
-            throw new RuntimeException(String.format("Menu id %s does not exist.", id));
-        }
-
-        SimpleFilterProvider filters = new SimpleFilterProvider();
-        filters.setFailOnUnknownId(false);
-
-        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(menu.get());
-        mappingJacksonValue.setFilters(filters);
-
-        return mappingJacksonValue;
+    public Optional<Menu> findById(Long id) {
+        return menusRepository.findById(id);
     }
 
-    public MappingJacksonValue createMenu(Menu menu) {
-        Menu newMenu = menusRepository.save(menu);
-
-        SimpleBeanPropertyFilter propertyFilter = SimpleBeanPropertyFilter.serializeAllExcept("sections");
-        FilterProvider filterProvider = new SimpleFilterProvider().addFilter("menuFilter", propertyFilter);
-        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(newMenu);
-        mappingJacksonValue.setFilters(filterProvider);
-
-        return mappingJacksonValue;
+    public Menu createMenu(Menu menu) {
+        return menusRepository.save(menu);
     }
 
-    public MappingJacksonValue createSection(Long menuId, MenuSection menuSection) {
+    public MenuSection createSection(Long menuId, MenuSection menuSection) {
         Optional<Menu> menu = menusRepository.findById(menuId);
 
         if (menu.isEmpty()) {
@@ -81,12 +50,7 @@ public class MenusService {
 
         menuSectionsRepository.save(menuSection);
 
-        SimpleBeanPropertyFilter propertyFilter = SimpleBeanPropertyFilter.serializeAllExcept("items");
-        FilterProvider filterProvider = new SimpleFilterProvider().addFilter("menuSectionFilter", propertyFilter);
-        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(menuSection);
-        mappingJacksonValue.setFilters(filterProvider);
-
-        return mappingJacksonValue;
+        return menuSection;
     }
 
     public MenuItem createItem(Long menuId, Long sectionId, MenuItem menuItem) {

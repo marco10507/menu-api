@@ -6,10 +6,11 @@ import com.example.menuservice.entity.MenuSection;
 import com.example.menuservice.service.MenusService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class MenuController {
@@ -20,31 +21,39 @@ public class MenuController {
     }
 
     @GetMapping(path = "/menus")
-    public MappingJacksonValue getMenus() {
+    public List<Menu> getMenus() {
         return menusService.findAll();
     }
 
     @GetMapping(path = "/menus/{id}")
-    public MappingJacksonValue getMenu(@PathVariable Long id) {
-        return menusService.findById(id);
+    public Menu getMenu(@PathVariable Long id) {
+        Optional<Menu> menu = menusService.findById(id);
+
+        if (menu.isEmpty()) {
+            throw new RuntimeException(String.format("Menu id %s does not exist.", id));
+        }
+
+        return menu.get();
     }
 
     @PostMapping(path = "/menu")
-    public ResponseEntity<MappingJacksonValue> postMenu(@RequestBody Menu menu) {
-        MappingJacksonValue mappingJacksonValue = menusService.createMenu(menu);
+    public ResponseEntity<Menu> postMenu(@RequestBody Menu menu) {
+        menu.setSections(new ArrayList<>());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(mappingJacksonValue);
+        menu = menusService.createMenu(menu);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(menu);
     }
 
     @PostMapping(path = "/menu/{menuId}/section")
-    public ResponseEntity<MappingJacksonValue> postSection(@RequestBody MenuSection menuSection, @PathVariable Long menuId) {
-        MappingJacksonValue mappingJacksonValue = menusService.createSection(menuId, menuSection);
+    public ResponseEntity<MenuSection> postSection(@RequestBody MenuSection menuSection, @PathVariable Long menuId) {
+        menuSection = menusService.createSection(menuId, menuSection);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(mappingJacksonValue);
+        return ResponseEntity.status(HttpStatus.CREATED).body(menuSection);
     }
 
     @PostMapping(path = "/menu/{menuId}/section/{sectionId}/item")
-    public ResponseEntity<MenuItem> postItem(@PathVariable Long sectionId, @PathVariable Long menuId, @RequestBody MenuItem menuItem) {
+    public ResponseEntity<MenuItem> postItem(@PathVariable Long sectionId, @PathVariable Long menuId, @RequestBody MenuItem menuItem){
         menuItem = menusService.createItem(menuId, sectionId, menuItem);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(menuItem);
