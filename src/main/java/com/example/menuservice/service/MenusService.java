@@ -9,7 +9,6 @@ import com.example.menuservice.repository.MenuItemsRepository;
 import com.example.menuservice.repository.MenuSectionItemsRepository;
 import com.example.menuservice.repository.MenuSectionsRepository;
 import com.example.menuservice.repository.MenusRepository;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
