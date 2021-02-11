@@ -62,6 +62,18 @@ public class MenusServiceTest {
     }
 
     @Test
+    public void createMenuTest() {
+        Menu mockMenu = new Menu();
+
+        when(mockMenusRepository.save(mockMenu)).thenReturn(mockMenu);
+
+        Menu actualMenu = menusService.createMenu(mockMenu);
+        Menu expectedMenu = mockMenu;
+
+        assertEquals(expectedMenu, actualMenu);
+    }
+
+    @Test
     public void createSectionTest() {
         Optional<Menu> mockMenu = Optional.of(new Menu());
 
