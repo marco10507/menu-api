@@ -1,23 +1,22 @@
 package com.example.menuservice.entity;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotNull
+    @NotBlank
     private Double price;
-    @NotNull
+    @NotBlank
     private String currency;
-    @NotNull
+    @NotBlank
     private String name;
-    @NotNull
+    @NotBlank
     private String description;
-    @NotNull
+    @NotBlank
     private String pictureLink;
 
     public MenuItem() {

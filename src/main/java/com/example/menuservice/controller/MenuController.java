@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,21 +38,21 @@ public class MenuController {
     }
 
     @PostMapping(path = "/menu")
-    public ResponseEntity<Menu> postMenu(@RequestBody Menu menu) {
+    public ResponseEntity<Menu> postMenu(@Valid @RequestBody Menu menu) {
         menu = menusService.createMenu(menu);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(menu);
     }
 
     @PostMapping(path = "/menu/{menuId}/section")
-    public ResponseEntity<MenuSection> postSection(@RequestBody MenuSection menuSection, @PathVariable Long menuId) {
+    public ResponseEntity<MenuSection> postSection(@Valid @RequestBody MenuSection menuSection, @PathVariable Long menuId) {
         menuSection = menusService.createSection(menuId, menuSection);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(menuSection);
     }
 
     @PostMapping(path = "/menu/{menuId}/section/{sectionId}/item")
-    public ResponseEntity<MenuItem> postItem(@PathVariable Long sectionId, @PathVariable Long menuId, @RequestBody MenuItem menuItem) {
+    public ResponseEntity<MenuItem> postItem(@PathVariable Long sectionId, @PathVariable Long menuId, @Valid @RequestBody MenuItem menuItem) {
         menuItem = menusService.createItem(menuId, sectionId, menuItem);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(menuItem);

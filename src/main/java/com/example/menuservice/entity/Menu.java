@@ -1,9 +1,9 @@
 package com.example.menuservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -11,9 +11,9 @@ public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotNull
+    @NotBlank
     private String name;
-    @NotNull
+    @NotBlank
     private String description;
 
     @OneToMany(mappedBy="menu")

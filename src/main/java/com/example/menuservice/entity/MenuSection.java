@@ -2,9 +2,9 @@ package com.example.menuservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -12,9 +12,9 @@ public class MenuSection {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotNull
+    @NotBlank
     private String name;
-    @NotNull
+    @NotBlank
     private String description;
 
     @ManyToOne
