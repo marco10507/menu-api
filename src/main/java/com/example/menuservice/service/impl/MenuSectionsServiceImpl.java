@@ -37,7 +37,6 @@ public class MenuSectionsServiceImpl implements MenuSectionsService {
         }
 
         MenuSection menuSection = menuSectionCreationMapper.fromDTO(menuSectionCreationDTO);
-
         menuSection.setMenu(menu.get());
 
         menuSectionsRepository.save(menuSection);

@@ -41,7 +41,9 @@ public class MenuItemsServiceImpl implements MenuItemsService {
         Optional<MenuSection> section = menuSectionsRepository.findByIdAndMenuId(sectionId, menuId);
 
         if (section.isEmpty()) {
-            throw new ResourceNotFoundException(String.format("Section with id %s and menu id %s does not exist.", sectionId, menuId));
+            throw new ResourceNotFoundException(
+                    String.format("Section with id %s and menu id %s does not exist.", sectionId, menuId)
+            );
         }
 
         MenuSectionItem menuSectionItem = MenuSectionItem.builder()

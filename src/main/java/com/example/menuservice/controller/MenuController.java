@@ -64,7 +64,11 @@ public class MenuController {
     }
 
     @PostMapping(path = "/menu/{menuId}/section/{sectionId}/item")
-    public ResponseEntity<MenuItem> postItem(@PathVariable Long sectionId, @PathVariable Long menuId, @Valid @RequestBody MenuItemCreationDTO menuItemCreationDTO) {
+    public ResponseEntity<MenuItem> postItem(
+            @PathVariable Long sectionId,
+            @PathVariable Long menuId,
+            @Valid @RequestBody MenuItemCreationDTO menuItemCreationDTO
+    ) {
         MenuItem menuItem = menuItemsService.save(menuId, sectionId, menuItemCreationDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(menuItem);
