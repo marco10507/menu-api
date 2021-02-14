@@ -11,21 +11,26 @@ import java.util.Date;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorMessage> resourceNotFoundExceptionHandler(ResourceNotFoundException exception, WebRequest request) {
-        ErrorMessage errorMessage = new ErrorMessage();
-        errorMessage.setTimestamp(new Date());
-        errorMessage.setMessage(exception.getMessage());
-        errorMessage.setDescription(request.getDescription(false));
+    public ResponseEntity<ErrorMessage> resourceNotFoundExceptionHandler(
+            ResourceNotFoundException exception,
+            WebRequest request
+    ) {
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .timestamp(new Date())
+                .message(exception.getMessage())
+                .description(request.getDescription(false))
+                .build();
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorMessage> globalExceptionHandler(Exception exception, WebRequest request) {
-        ErrorMessage errorMessage = new ErrorMessage();
-        errorMessage.setTimestamp(new Date());
-        errorMessage.setMessage(exception.getMessage());
-        errorMessage.setDescription(request.getDescription(false));
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .timestamp(new Date())
+                .message(exception.getMessage())
+                .description(request.getDescription(false))
+                .build();
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
     }
