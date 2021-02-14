@@ -1,7 +1,8 @@
 package com.example.menuservice.entity.dto;
 
-import com.sun.istack.NotNull;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 public class MenuCreationDTO {

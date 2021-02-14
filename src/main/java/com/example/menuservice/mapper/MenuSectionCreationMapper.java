@@ -6,9 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public abstract class MenuSectionCreationMapper {
+public interface MenuSectionCreationMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "items", ignore = true)
     @Mapping(target = "menu", ignore = true)
-    public abstract MenuSection fromDTO (MenuSectionCreationDTO menuSectionCreationDTO);
+    MenuSection fromDTO (MenuSectionCreationDTO menuSectionCreationDTO);
 }

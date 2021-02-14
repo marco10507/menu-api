@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public abstract class MenuItemCreationMapper {
+public interface MenuItemCreationMapper {
     @Mapping(target = "id", ignore = true)
-    public abstract MenuItem fromDTO(MenuItemCreationDTO menuItemCreationDTO);
+    MenuItem fromDTO(MenuItemCreationDTO menuItemCreationDTO);
 }
