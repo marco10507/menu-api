@@ -44,7 +44,10 @@ public class MenuItemsServiceImpl implements MenuItemsService {
             throw new ResourceNotFoundException(String.format("Section with id %s and menu id %s does not exist.", sectionId, menuId));
         }
 
-        MenuSectionItem menuSectionItem = new MenuSectionItem(section.get(), menuItem);
+        MenuSectionItem menuSectionItem = MenuSectionItem.builder()
+                .menuSection(section.get())
+                .menuItem(menuItem)
+                .build();
 
         menuSectionItemsRepository.save(menuSectionItem);
 
