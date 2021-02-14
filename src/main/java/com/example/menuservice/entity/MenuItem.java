@@ -2,13 +2,14 @@ package com.example.menuservice.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotBlank
+    @NotNull
     private Double price;
     @NotBlank
     private String currency;
