@@ -3,6 +3,11 @@ package com.example.menuservice.controller;
 import com.example.menuservice.entity.Menu;
 import com.example.menuservice.entity.MenuItem;
 import com.example.menuservice.entity.MenuSection;
+import com.example.menuservice.entity.dto.MenuCreationDTO;
+import com.example.menuservice.entity.dto.MenuItemCreationDTO;
+import com.example.menuservice.entity.dto.MenuSectionCreationDTO;
+import com.example.menuservice.service.MenuItemsService;
+import com.example.menuservice.service.MenuSectionsService;
 import com.example.menuservice.service.MenusService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -16,7 +21,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -29,7 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class MenuControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -38,14 +41,16 @@ public class MenuControllerTest {
 
     @MockBean
     private MenusService mockMenusService;
+    @MockBean
+    private MenuSectionsService mockMenusSectionService;
+    @MockBean
+    private MenuItemsService mockMenuItemsService;
 
     @Test
     public void getMenusTest() throws Exception {
-        Menu mockMenu1 = new Menu("menu 1", "best menu", new ArrayList<>());
-        mockMenu1.setId(1L);
+        Menu mockMenu1 = new Menu(1L, "menu 1", "best menu", new ArrayList<>());
 
-        Menu mockMenu2 = new Menu("menu 2", "best menu", new ArrayList<>());
-        mockMenu2.setId(2L);
+        Menu mockMenu2 = new Menu(2L, "menu 2", "best menu", new ArrayList<>());
 
         List<Menu> mockMenus = Arrays.asList(
                 mockMenu1,
@@ -64,14 +69,13 @@ public class MenuControllerTest {
 
     @Test
     public void getMenuTest() throws Exception {
-        Menu mockMenu = new Menu("menu 1", "best menu", new ArrayList<>());
-        mockMenu.setId(100L);
+        Menu mockMenu = new Menu(1L, "menu 1", "best menu", new ArrayList<>());
 
-        when(mockMenusService.findById(100L)).thenReturn(Optional.of(mockMenu));
+        when(mockMenusService.findById(1L)).thenReturn(mockMenu);
 
         String expectedJson = mapper.writeValueAsString(mockMenu);
 
-        mockMvc.perform(get("/menus/100")
+        mockMvc.perform(get("/menus/1")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -79,24 +83,13 @@ public class MenuControllerTest {
     }
 
     @Test
-    public void getMenuWhenMenuNotFoundTest() throws Exception {
-        when(mockMenusService.findById(100L)).thenReturn(Optional.empty());
-
-        mockMvc.perform(get("/menus/100")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-    }
-
-    @Test
     public void postMenuTest() throws Exception {
-        Menu mockMenu = new Menu(
-                "menu 1",
-                "best menu",
-                null
-        );
+        Menu mockMenu = Menu.builder()
+                .name("Lunch menu")
+                .description("best meals on earth")
+                .build();
 
-        when(mockMenusService.createMenu(any(Menu.class))).thenReturn(mockMenu);
+        when(mockMenusService.save(any(MenuCreationDTO.class))).thenReturn(mockMenu);
 
         String json = mapper.writeValueAsString(mockMenu);
 
@@ -110,16 +103,14 @@ public class MenuControllerTest {
 
     @Test
     public void postSectionTest() throws Exception {
-        MenuSection mockSection = new MenuSection(
-                "section",
-                "my section",
-                null,
-                null
-        );
+        MenuSection mockMenuSection = MenuSection.builder()
+                .name("Desserts")
+                .description("Best desserts on earth")
+                .build();
 
-        when(mockMenusService.createSection(anyLong(), any(MenuSection.class))).thenReturn(mockSection);
+        when(mockMenusSectionService.save(anyLong(), any(MenuSectionCreationDTO.class))).thenReturn(mockMenuSection);
 
-        String json = mapper.writeValueAsString(mockSection);
+        String json = mapper.writeValueAsString(mockMenuSection);
 
         mockMvc.perform(post("/menu/100/section")
                 .content(json)
@@ -131,15 +122,16 @@ public class MenuControllerTest {
 
     @Test
     public void postItemTest() throws Exception {
-        MenuItem mockMenuItem = new MenuItem(
-                10.5,
-                "eur",
-                "Haring",
-                "best fish on earth",
-                "www.mypictures.com/haring.png"
-        );
+        MenuItem mockMenuItem = MenuItem.builder()
+                .price(10.5)
+                .currency("eur")
+                .name("haring")
+                .description("best fish on earth")
+                .pictureLink("www.mypictures.com/haring.png")
+                .build();
 
-        when(mockMenusService.createItem(anyLong(), anyLong(), any(MenuItem.class))).thenReturn(mockMenuItem);
+        when(mockMenuItemsService.save(anyLong(), anyLong(), any(MenuItemCreationDTO.class)))
+                .thenReturn(mockMenuItem);
 
         String json = mapper.writeValueAsString(mockMenuItem);
 
