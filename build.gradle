@@ -8,15 +8,23 @@ plugins {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    testCompileOnly 'org.projectlombok:lombok:1.18.16'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.16', 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
+    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.16', 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     runtimeOnly 'com.h2database:h2'
+    testImplementation 'com.h2database:h2'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -29,18 +37,23 @@ test {
 }
 
 jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
     dependsOn test
 }
 
 jacocoTestCoverageVerification {
-    classDirectories.setFrom(
-            files(classDirectories.files.collect {
-                fileTree(dir: it, exclude: [
-                        'com/example/menuservice/entity/*',
-                        'com/example/menuservice/exception/*',
-                ])
-            })
-    )
+    afterEvaluate {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it, exclude: [
+                            'com/example/menuservice/entity/*',
+                            'com/example/menuservice/exception/*',
+                    ])
+                })
+        )
+    }
 
     violationRules {
         rule {
@@ -56,5 +69,6 @@ sonarqube {
         property "sonar.host.url", "http://localhost:9000"
         property "sonar.login", "admin"
         property "sonar.password", "super"
+        property "sonar.sources", "src/main, build.gradle"
     }
 }
