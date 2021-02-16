@@ -34,6 +34,12 @@ test {
     useJUnitPlatform()
 }
 
+def excludedDirectories = [
+        'com/example/menuservice/entity/**',
+        'com/example/menuservice/exception/**',
+        'com/example/menuservice/mapper/**'
+]
+
 jacocoTestReport {
     reports {
         xml.enabled true
@@ -42,10 +48,7 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories.setFrom(
                 files(classDirectories.files.collect {
-                    fileTree(dir: it, exclude: [
-                            'com/example/menuservice/entity/**',
-                            'com/example/menuservice/exception/**',
-                    ])
+                    fileTree(dir: it, exclude: excludedDirectories)
                 })
         )
     }
@@ -55,20 +58,27 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = 0.0
+                minimum = 0.75
             }
         }
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it, exclude: excludedDirectories)
+                })
+        )
     }
 }
 
 test.finalizedBy jacocoTestReport
-check.dependsOn jacocoTestCoverageVerification
+jacocoTestReport.finalizedBy jacocoTestCoverageVerification
 
 sonarqube {
     properties {
         property "sonar.host.url", "http://localhost:9000"
         property "sonar.login", "admin"
         property "sonar.password", "super"
-        property "sonar.sources", "src/main, build.gradle"
     }
 }
