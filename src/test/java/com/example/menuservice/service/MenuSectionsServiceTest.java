@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 
 @SpringBootTest
-public class MenuSectionsServiceTest {
+class MenuSectionsServiceTest {
     @Autowired
     private MenuSectionsService menuSectionsService;
 
@@ -34,7 +34,7 @@ public class MenuSectionsServiceTest {
     private MenuSectionsRepository mockMenuSectionsRepository;
 
     @Test
-    public void createSectionTest() {
+    void createSectionTest() {
         Optional<Menu> mockMenu = Optional.of(new Menu());
         MenuSectionCreationDTO mockSectionCreationDTO = new MenuSectionCreationDTO();
         MenuSection mockMenuSection = new MenuSection();
@@ -52,7 +52,7 @@ public class MenuSectionsServiceTest {
     }
 
     @Test
-    public void createSectionWhenMenuNotFoundTest() {
+    void createSectionWhenMenuNotFoundTest() {
         Optional<Menu> mockMenu = Optional.empty();
 
         when(mockMenusRepository.findById(anyLong())).thenReturn(mockMenu);

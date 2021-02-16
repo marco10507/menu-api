@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class MenuItemsServiceTest {
+class MenuItemsServiceTest {
     @Autowired
     private MenuItemsService menuItemsService;
 
@@ -37,7 +37,7 @@ public class MenuItemsServiceTest {
     private MenuItemsRepository mockMenuItemsRepository;
 
     @Test
-    public void createItemTest() {
+    void createItemTest() {
         MenuItem mockItem = new MenuItem();
         MenuItemCreationDTO mockItemCreationDTO = new MenuItemCreationDTO();
         MenuSection mockMenuSection = new MenuSection();
@@ -62,7 +62,7 @@ public class MenuItemsServiceTest {
     }
 
     @Test
-    public void createItemWhenSectionNotFoundTest() {
+    void createItemWhenSectionNotFoundTest() {
         Optional<MenuSection> mockSection = Optional.empty();
 
         when(mockMenuSectionsRepository.findByIdAndMenuId(anyLong(), anyLong())).thenReturn(mockSection);

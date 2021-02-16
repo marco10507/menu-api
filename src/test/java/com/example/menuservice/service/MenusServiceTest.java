@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class MenusServiceTest {
+class MenusServiceTest {
     @Autowired
     private MenusService menusService;
 
@@ -26,7 +26,7 @@ public class MenusServiceTest {
     private MenusRepository mockMenusRepository;
 
     @Test
-    public void findAllTest() {
+    void findAllTest() {
         List<Menu> mockMenus = new ArrayList<>();
 
         when(mockMenusRepository.findAll()).thenReturn(mockMenus);
@@ -38,7 +38,7 @@ public class MenusServiceTest {
     }
 
     @Test
-    public void findByIdTest() {
+    void findByIdTest() {
         Optional<Menu> mockMenu = Optional.of(new Menu());
 
         when(mockMenusRepository.findById(100L)).thenReturn(mockMenu);
@@ -50,7 +50,7 @@ public class MenusServiceTest {
     }
 
     @Test
-    public void findByIdWhenMenuNotFoundTest() {
+    void findByIdWhenMenuNotFoundTest() {
         Optional<Menu> mockMenu = Optional.empty();
 
         when(mockMenusRepository.findById(100L)).thenReturn(mockMenu);
@@ -59,7 +59,7 @@ public class MenusServiceTest {
     }
 
     @Test
-    public void createMenuTest() {
+    void createMenuTest() {
         Menu mockMenu = new Menu();
         MenuCreationDTO mockMenuDTO = new MenuCreationDTO();
 

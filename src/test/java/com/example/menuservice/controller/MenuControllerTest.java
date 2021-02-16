@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class MenuControllerTest {
+class MenuControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -47,7 +47,7 @@ public class MenuControllerTest {
     private MenuItemsService mockMenuItemsService;
 
     @Test
-    public void getMenusTest() throws Exception {
+    void getMenusTest() throws Exception {
         Menu mockMenu1 = new Menu(1L, "menu 1", "best menu", new ArrayList<>());
 
         Menu mockMenu2 = new Menu(2L, "menu 2", "best menu", new ArrayList<>());
@@ -68,7 +68,7 @@ public class MenuControllerTest {
     }
 
     @Test
-    public void getMenuTest() throws Exception {
+    void getMenuTest() throws Exception {
         Menu mockMenu = new Menu(1L, "menu 1", "best menu", new ArrayList<>());
 
         when(mockMenusService.findById(1L)).thenReturn(mockMenu);
@@ -83,7 +83,7 @@ public class MenuControllerTest {
     }
 
     @Test
-    public void postMenuTest() throws Exception {
+    void postMenuTest() throws Exception {
         Menu mockMenu = Menu.builder()
                 .name("Lunch menu")
                 .description("best meals on earth")
@@ -102,7 +102,7 @@ public class MenuControllerTest {
     }
 
     @Test
-    public void postSectionTest() throws Exception {
+    void postSectionTest() throws Exception {
         MenuSection mockMenuSection = MenuSection.builder()
                 .name("Desserts")
                 .description("Best desserts on earth")
@@ -121,7 +121,7 @@ public class MenuControllerTest {
     }
 
     @Test
-    public void postItemTest() throws Exception {
+    void postItemTest() throws Exception {
         MenuItem mockMenuItem = MenuItem.builder()
                 .price(10.5)
                 .currency("eur")
