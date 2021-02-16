@@ -32,37 +32,37 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    finalizedBy jacocoTestReport
-    finalizedBy jacocoTestCoverageVerification
 }
 
 jacocoTestReport {
     reports {
         xml.enabled true
     }
-    dependsOn test
-}
 
-jacocoTestCoverageVerification {
     afterEvaluate {
         classDirectories.setFrom(
                 files(classDirectories.files.collect {
                     fileTree(dir: it, exclude: [
-                            'com/example/menuservice/entity/*',
-                            'com/example/menuservice/exception/*',
+                            'com/example/menuservice/entity/**',
+                            'com/example/menuservice/exception/**',
                     ])
                 })
         )
     }
+}
 
+jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = 0.75
+                minimum = 0.0
             }
         }
     }
 }
+
+test.finalizedBy jacocoTestReport
+check.dependsOn jacocoTestCoverageVerification
 
 sonarqube {
     properties {
